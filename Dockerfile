@@ -1,12 +1,4 @@
-#FROM r-base
-
-#RUN echo 'install.packages(c("ggplot2", "plyr", "reshape2", "RColorBrewer", #"scales", "FactoMineR", \
-#"Hmisc", "cowplot", "shiny"), repos="http://cran.us.r-project.org", #dependencies=TRUE)' > /tmp/packages.R \
-#&& Rscript /tmp/packages.R
-
-FROM debian:testing
-
-#FROM debian:stretch-20201117-slim
+FROM debian:testing-20201117-slim
 
 RUN useradd docker \
 	&& mkdir /home/docker \
@@ -37,7 +29,6 @@ RUN echo "deb http://http.debian.net/debian sid main" > /etc/apt/sources.list.d/
 
 ENV R_BASE_VERSION 4.0.3
 
-## Now install R and littler, and create a link for littler in /usr/local/bin
 RUN apt-get update \
         && apt-get install -t unstable -y --no-install-recommends \
                 gcc-9-base \
@@ -60,4 +51,4 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN echo 'install.packages(c("ggplot2"), repos="http://cran.us.r-project.org", dependencies=TRUE)' > /tmp/packages.R \
-&& Rscript /tmp/packages.R
+&& Rscript /tmp/packages.R && rm -Rf /tmp/packages.R
